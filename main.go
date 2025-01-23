@@ -1,7 +1,7 @@
 package main
 
 import (
-	"example-go-component/internal/edgee/protocols/data-collection"
+	dc "example-go-component/internal/edgee/protocols/data-collection"
 	"go.bytecodealliance.org/cm"
 )
 
@@ -9,7 +9,7 @@ func init() {
 	// Implement the datacollection.Exports.Page, datacollection.Exports.Track, and datacollection.Exports.User functions.
 	// These functions are called by the Edgee runtime to get the HTTP request to make to the provider's API for each event type.
 
-	datacollection.Exports.Page = func(e datacollection.Event, cred datacollection.Dict) (result cm.Result[datacollection.EdgeeRequestShape, datacollection.EdgeeRequest, string]) {
+	dc.Exports.Page = func(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]) {
 		// Access creds by using the Slice method
 		// For example, if you component is setup as following:
 		// [[components.data_collection]]
@@ -25,49 +25,49 @@ func init() {
 			{"Authorization", "Bearer token123"},
 		}
 		list := cm.NewList(&headers[0], len(headers))
-		dict := datacollection.Dict(list)
-		edgeeRequest := datacollection.EdgeeRequest{
-			Method:  datacollection.HTTPMethodGET,
+		dict := dc.Dict(list)
+		edgeeRequest := dc.EdgeeRequest{
+			Method:  dc.HTTPMethodGET,
 			URL:     "https://example.com/api/resource",
 			Headers: dict,
 			Body:    `{"key": "value"}`,
 		}
 
-		return cm.OK[cm.Result[datacollection.EdgeeRequestShape, datacollection.EdgeeRequest, string]](edgeeRequest)
+		return cm.OK[cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]](edgeeRequest)
 	}
 
-	datacollection.Exports.Track = func(e datacollection.Event, cred datacollection.Dict) (result cm.Result[datacollection.EdgeeRequestShape, datacollection.EdgeeRequest, string]) {
+	dc.Exports.Track = func(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]) {
 		headers := [][2]string{
 			{"Content-Type", "application/json"},
 			{"Authorization", "Bearer token123"},
 		}
 		list := cm.NewList(&headers[0], len(headers))
-		dict := datacollection.Dict(list)
-		edgeeRequest := datacollection.EdgeeRequest{
-			Method:  datacollection.HTTPMethodGET,
+		dict := dc.Dict(list)
+		edgeeRequest := dc.EdgeeRequest{
+			Method:  dc.HTTPMethodGET,
 			URL:     "https://example.com/api/resource",
 			Headers: dict,
 			Body:    `{"key": "value"}`,
 		}
 
-		return cm.OK[cm.Result[datacollection.EdgeeRequestShape, datacollection.EdgeeRequest, string]](edgeeRequest)
+		return cm.OK[cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]](edgeeRequest)
 	}
 
-	datacollection.Exports.User = func(e datacollection.Event, cred datacollection.Dict) (result cm.Result[datacollection.EdgeeRequestShape, datacollection.EdgeeRequest, string]) {
+	dc.Exports.User = func(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]) {
 		headers := [][2]string{
 			{"Content-Type", "application/json"},
 			{"Authorization", "Bearer token123"},
 		}
 		list := cm.NewList(&headers[0], len(headers))
-		dict := datacollection.Dict(list)
-		edgeeRequest := datacollection.EdgeeRequest{
-			Method:  datacollection.HTTPMethodGET,
+		dict := dc.Dict(list)
+		edgeeRequest := dc.EdgeeRequest{
+			Method:  dc.HTTPMethodGET,
 			URL:     "https://example.com/api/resource",
 			Headers: dict,
 			Body:    `{"key": "value"}`,
 		}
 
-		return cm.OK[cm.Result[datacollection.EdgeeRequestShape, datacollection.EdgeeRequest, string]](edgeeRequest)
+		return cm.OK[cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]](edgeeRequest)
 	}
 }
 
