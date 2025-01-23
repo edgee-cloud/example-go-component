@@ -13,7 +13,7 @@ internal:
 setup: internal ## setup development environment
 
 build: setup ## build component
-	tinygo build -target=wasip2 -o dc_component.wasm --wit-package wit/ --wit-world data-collection main.go
+	tinygo build -target=wasip2 -o dc_component.wasm --wit-package wit/ --wit-world data-collection ./
 
 clean: ## clean build artifacts
 	rm -rf dc_component.wasm
