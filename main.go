@@ -8,7 +8,7 @@ import (
 type Result = cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]
 
 func resultWrapper(request dc.EdgeeRequest) (result Result) {
-	return cm.OK[cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]](request)
+	return cm.OK[Result](request)
 }
 
 func init() {
