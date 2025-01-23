@@ -5,6 +5,10 @@ import (
 	"go.bytecodealliance.org/cm"
 )
 
+func resultWrapper(request dc.EdgeeRequest) (result cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]) {
+	return cm.OK[cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]](request)
+}
+
 // Implement the datacollection.Exports.Page, datacollection.Exports.Track, and datacollection.Exports.User functions.
 // These functions are called by the Edgee runtime to get the HTTP request to make to the provider's API for each event type.
 func PageImpl(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]) {
@@ -31,7 +35,7 @@ func PageImpl(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape, 
 		Body:    `{"key": "value"}`,
 	}
 
-	return cm.OK[cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]](edgeeRequest)
+	return resultWrapper(edgeeRequest)
 }
 
 func TrackImpl(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]) {
@@ -48,7 +52,7 @@ func TrackImpl(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape,
 		Body:    `{"key": "value"}`,
 	}
 
-	return cm.OK[cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]](edgeeRequest)
+	return resultWrapper(edgeeRequest)
 }
 
 func UserImpl(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]) {
@@ -65,5 +69,5 @@ func UserImpl(e dc.Event, cred dc.Dict) (result cm.Result[dc.EdgeeRequestShape, 
 		Body:    `{"key": "value"}`,
 	}
 
-	return cm.OK[cm.Result[dc.EdgeeRequestShape, dc.EdgeeRequest, string]](edgeeRequest)
+	return resultWrapper(edgeeRequest)
 }
