@@ -7,7 +7,7 @@ import (
 
 // Implement the datacollection.Exports.Page, datacollection.Exports.Track, and datacollection.Exports.User functions.
 // These functions are called by the Edgee runtime to get the HTTP request to make to the provider's API for each event type.
-func PageImpl(e dc.Event, cred dc.Dict) dc.EdgeeRequest {
+func PageHandler(e dc.Event, cred dc.Dict) dc.EdgeeRequest {
 	// Access creds by using the Slice method
 	// For example, if you component is setup as following:
 	// [[components.data_collection]]
@@ -34,7 +34,7 @@ func PageImpl(e dc.Event, cred dc.Dict) dc.EdgeeRequest {
 	return edgeeRequest
 }
 
-func TrackImpl(e dc.Event, cred dc.Dict) dc.EdgeeRequest {
+func TrackHandler(e dc.Event, cred dc.Dict) dc.EdgeeRequest {
 	headers := [][2]string{
 		{"Content-Type", "application/json"},
 		{"Authorization", "Bearer token123"},
@@ -51,7 +51,7 @@ func TrackImpl(e dc.Event, cred dc.Dict) dc.EdgeeRequest {
 	return edgeeRequest
 }
 
-func UserImpl(e dc.Event, cred dc.Dict) dc.EdgeeRequest {
+func UserHandler(e dc.Event, cred dc.Dict) dc.EdgeeRequest {
 	headers := [][2]string{
 		{"Content-Type", "application/json"},
 		{"Authorization", "Bearer token123"},
