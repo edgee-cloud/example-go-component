@@ -12,9 +12,9 @@ internal:
 	go run go.bytecodealliance.org/cmd/wit-bindgen-go generate -o internal/ ./wit
 setup: internal ## setup development environment
 
-build: setup ## build component
-	tinygo build -target=wasip2 -o dc_component.wasm --wit-package wit/ --wit-world data-collection ./
-
+build: 
+	edgee components build
+	
 clean: ## clean build artifacts
 	rm -rf dc_component.wasm
 	rm -rf internal/
