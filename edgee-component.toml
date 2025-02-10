@@ -4,7 +4,7 @@ manifest_version = 1
 name = "example-go-component"
 version = "1.0.0"
 
-wit-world-version = "0.3.0"
+wit-world-version = "0.4.0"
 
 [package.build]
 command = "go run go.bytecodealliance.org/cmd/wit-bindgen-go generate -o internal/ ./wit && tinygo build -target=wasip2 -o dc_component.wasm --wit-package wit/ --wit-world data-collection ./"
