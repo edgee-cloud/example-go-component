@@ -1,0 +1,32 @@
+name: Check
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up minimal stable Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Install wasm tooling
+        run: CC=clang cargo install wasm-tools --locked
+
+      - name: "Set up TinyGo"
+        run: |
+            wget https://github.com/tinygo-org/tinygo/releases/download/v0.35.0/tinygo_0.35.0_amd64.deb
+            sudo dpkg -i tinygo_0.35.0_amd64.deb
+
+      - name: Build component
+        run: |
+            make build-no-edgee
+
