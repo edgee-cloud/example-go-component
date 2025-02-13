@@ -1,6 +1,6 @@
 manifest_version = 1
 
-[package]
+[component]
 name = "example-go-component"
 version = "1.0.0"
 category = "data-collection"
@@ -10,6 +10,10 @@ documentation = "https://github.com/edgee-cloud/example-go-component"
 repository = "https://github.com/edgee-cloud/example-go-component"
 wit-world-version = "0.4.0"
 
-[package.build]
+[component.build]
 command = "go run go.bytecodealliance.org/cmd/wit-bindgen-go generate -o internal/ ./wit && tinygo build -target=wasip2 -o dc_component.wasm --wit-package wit/ --wit-world data-collection ./"
 output_path = "./dc_component.wasm"
+
+[component.settings.example]
+title = "Example Config Field"
+type = "string"
