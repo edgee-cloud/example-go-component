@@ -15,9 +15,6 @@ setup: internal ## setup development environment
 build:
 	edgee components build
 
-build-no-edgee: setup
-	tinygo build -target=wasip2 -o dc_component.wasm --wit-package wit/ --wit-world data-collection ./
-
 clean: ## clean build artifacts
 	rm -rf dc_component.wasm
 	rm -rf internal/
