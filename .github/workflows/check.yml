@@ -23,10 +23,19 @@ jobs:
 
       - name: "Set up TinyGo"
         run: |
-            wget https://github.com/tinygo-org/tinygo/releases/download/v0.35.0/tinygo_0.35.0_amd64.deb
-            sudo dpkg -i tinygo_0.35.0_amd64.deb
+          wget https://github.com/tinygo-org/tinygo/releases/download/v0.35.0/tinygo_0.35.0_amd64.deb
+          sudo dpkg -i tinygo_0.35.0_amd64.deb
+
+      - name: Install edgee
+        uses: edgee-cloud/install-edgee-cli@v0.1.0
 
       - name: Build component
         run: |
-            make build-no-edgee
+          edgee components build
 
+      - name: Verify .wasm file exists
+        run: |
+          if [ ! -f "./dc_component.wasm" ]; then
+            echo "❌ Error: dc_component.wasm not found" >&2
+            exit 1
+          fi
