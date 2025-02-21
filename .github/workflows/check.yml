@@ -19,7 +19,7 @@ jobs:
           toolchain: stable
 
       - name: Install wasm tooling
-        run: CC=clang cargo install wasm-tools --locked
+        run: CC=clang cargo install wasm-tools@1.225.0 --locked
 
       - name: "Set up TinyGo"
         run: |
