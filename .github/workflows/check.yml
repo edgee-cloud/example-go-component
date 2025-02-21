@@ -18,10 +18,9 @@ jobs:
         with:
           toolchain: stable
 
-      - name: Install cargo binstal
-        uses: cargo-bins/cargo-binstall@main
-      - name: Install wasm tooling
-        run: cargo binstall wasm-tools@1.225.0
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-tools@1.225.0
 
       - name: "Set up TinyGo"
         run: |
