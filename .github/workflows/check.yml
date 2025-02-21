@@ -18,8 +18,10 @@ jobs:
         with:
           toolchain: stable
 
+      - name: Install cargo binstal
+        uses: cargo-bins/cargo-binstall@main
       - name: Install wasm tooling
-        run: CC=clang cargo install wasm-tools@1.225.0 --locked
+        run: cargo binstall wasm-tools@1.225.0
 
       - name: "Set up TinyGo"
         run: |
