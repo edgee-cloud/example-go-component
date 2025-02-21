@@ -1,6 +1,6 @@
 module example-go-component
 
-go 1.24.0
+go 1.23.3
 
 require go.bytecodealliance.org/cm v0.1.0
 
