@@ -1,7 +1,8 @@
 package main
 
 import (
-	dc "example-go-component/internal/edgee/protocols/data-collection"
+	dc "example-go-component/internal/edgee/components/data-collection"
+
 	"go.bytecodealliance.org/cm"
 )
 

@@ -1,7 +1,8 @@
 package main
 
 import (
-	dc "example-go-component/internal/edgee/protocols/data-collection"
+	dc "example-go-component/internal/edgee/components/data-collection"
+
 	"go.bytecodealliance.org/cm"
 )
 
@@ -15,14 +16,14 @@ func resultWrapper(request dc.EdgeeRequest) (result Result) {
 }
 
 func init() {
-	dc.Exports.Page = func(e dc.Event, cred dc.Dict) Result {
-		return resultWrapper(PageHandler(e, cred))
+	dc.Exports.Page = func(e dc.Event, settings dc.Dict) Result {
+		return resultWrapper(PageHandler(e, settings))
 	}
-	dc.Exports.Track = func(e dc.Event, cred dc.Dict) Result {
-		return resultWrapper(TrackHandler(e, cred))
+	dc.Exports.Track = func(e dc.Event, settings dc.Dict) Result {
+		return resultWrapper(TrackHandler(e, settings))
 	}
-	dc.Exports.User = func(e dc.Event, cred dc.Dict) Result {
-		return resultWrapper(UserHandler(e, cred))
+	dc.Exports.User = func(e dc.Event, settings dc.Dict) Result {
+		return resultWrapper(UserHandler(e, settings))
 	}
 }
 

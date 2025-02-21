@@ -18,8 +18,10 @@ jobs:
         with:
           toolchain: stable
 
-      - name: Install wasm tooling
-        run: CC=clang cargo install wasm-tools --locked
+      - name: Install wasm-tools with cargo binstall
+        uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-tools@1.225.0
 
       - name: "Set up TinyGo"
         run: |
