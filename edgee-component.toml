@@ -8,7 +8,7 @@ subcategory = "analytics"
 description = "Example Go component for data collection"
 documentation = "https://github.com/edgee-cloud/example-go-component"
 repository = "https://github.com/edgee-cloud/example-go-component"
-wit-world-version = "0.4.0"
+wit-world-version = "0.5.0"
 
 [component.build]
 command = "go run go.bytecodealliance.org/cmd/wit-bindgen-go generate -o internal/ ./wit && tinygo build -target=wasip2 -o dc_component.wasm --wit-package wit/ --wit-world data-collection ./"
