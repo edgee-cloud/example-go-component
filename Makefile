@@ -9,7 +9,7 @@ help:
 		| sed -e "s/^Makefile://" -e "s///" \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 internal:
-	go run go.bytecodealliance.org/cmd/wit-bindgen-go generate -o internal/ ./wit
+	go run go.bytecodealliance.org/cmd/wit-bindgen-go generate -o internal/ ./.edgee/wit
 setup: internal ## setup development environment
 
 build:

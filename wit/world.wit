@@ -1,8 +1,0 @@
-package edgee:native;
-
-world data-collection {
-  // for some reason, tinygo requires this include
-  // cf https://component-model.bytecodealliance.org/language-support/go.html#2-determine-which-world-the-component-will-implement
-  include wasi:cli/imports@0.2.0;
-  export edgee:components/data-collection;
-}
