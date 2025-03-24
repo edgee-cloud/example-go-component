@@ -21,7 +21,7 @@ jobs:
       - name: Install wasm-tools with cargo binstall
         uses: taiki-e/install-action@v2
         with:
-          tool: wasm-tools@1.225.0
+          tool: wasm-tools@1.227.1 # let's keep this pinned for now
 
       - name: "Set up TinyGo"
         run: |
