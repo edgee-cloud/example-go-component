@@ -54,7 +54,7 @@ func MapHandler(cookies cmp.Dict, settings cmp.Dict) Option {
 	if cookie.Key == "" {
 		return None()
 	}
-	if cookie.Key != "granted" {
+	if cookie.Key == "granted" {
 		return Granted()
 	} else if cookie.Key == "denied" {
 		return Denied()
