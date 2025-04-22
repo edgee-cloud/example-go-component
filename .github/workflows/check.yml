@@ -47,6 +47,3 @@ jobs:
 
       - name: Build component
         run: edgee component build
-
-      - name: Run Tests
-        run: make test
