@@ -9,9 +9,9 @@
 </p>
 </div>
 
-<h1 align="center">Example GoLang component for Edgee</h1>
+<h1 align="center">Example GoLang Data Collection Component for Edgee</h1>
 
-This is an example of a GoLang Edgee Component.
+This is an example of a GoLang Data Collection Edgee Component.
 
 ## Setup
 Requirements:

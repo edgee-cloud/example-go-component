@@ -9,9 +9,15 @@ env:
   EDGEE_API_TOKEN: ${{ secrets.EDGEE_API_TOKEN }}
 
 jobs:
-  test:
-    name: test
+  full-ci:
+    name: Full CI (${{ matrix.dir }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir: [consent-management, data-collection]
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,6 +26,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
+          target: wasm32-wasip2
+          components: rustfmt, clippy
 
       - name: Install wasm-tools with cargo binstall
         uses: taiki-e/install-action@v2
@@ -31,16 +39,11 @@ jobs:
           wget https://github.com/tinygo-org/tinygo/releases/download/v0.35.0/tinygo_0.35.0_amd64.deb
           sudo dpkg -i tinygo_0.35.0_amd64.deb
 
-      - name: Install edgee
+      - name: Install Edgee CLI
         uses: edgee-cloud/install-edgee-cli@v0.2.0
 
-      - name: Build component
-        run: |
-          edgee component build
+      - name: Run edgee component wit
+        run: edgee component wit
 
-      - name: Verify .wasm file exists
-        run: |
-          if [ ! -f "./dc_component.wasm" ]; then
-            echo "❌ Error: dc_component.wasm not found" >&2
-            exit 1
-          fi
+      - name: Build component
+        run: edgee component build
