@@ -36,8 +36,8 @@ jobs:
 
       - name: "Set up TinyGo"
         run: |
-          wget https://github.com/tinygo-org/tinygo/releases/download/v0.35.0/tinygo_0.35.0_amd64.deb
-          sudo dpkg -i tinygo_0.35.0_amd64.deb
+          wget https://github.com/tinygo-org/tinygo/releases/download/v0.38.0/tinygo_0.38.0_amd64.deb
+          sudo dpkg -i tinygo_0.38.0_amd64.deb
 
       - name: Install Edgee CLI
         uses: edgee-cloud/install-edgee-cli@v0.2.0
