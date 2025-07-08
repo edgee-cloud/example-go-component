@@ -5,8 +5,31 @@ import (
 	wasihttp "example-go-component/internal/wasi/http/types"
 	"fmt"
 
+	"encoding/json"
 	"go.bytecodealliance.org/cm"
 )
+
+type Settings struct {
+	Example string `json:"example"`
+}
+
+func get_settings(request incominghandler.IncomingRequest) *Settings {
+	headerMap := get_headers(request)
+	settingsHeaders, exists := headerMap["x-edgee-component-settings"]
+	if !exists || len(settingsHeaders) == 0 {
+		fmt.Println("Warning: x-edgee-component-settings header not found, using default settings")
+		return &Settings{}
+	}
+
+	var settings Settings
+	err := json.Unmarshal([]byte(settingsHeaders[0]), &settings)
+	if err != nil {
+		fmt.Println("Could not parse settings header:", err)
+		return &Settings{}
+	}
+
+	return &settings
+}
 
 func Handle(request incominghandler.IncomingRequest, responseOut incominghandler.ResponseOutparam) {
 	index := `

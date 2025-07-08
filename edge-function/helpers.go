@@ -1,15 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	incominghandler "example-go-component/internal/wasi/http/incoming-handler"
 	"example-go-component/internal/wasi/io/streams"
-	"fmt"
 )
-
-type Settings struct {
-	Example string `json:"example"`
-}
 
 func get_headers(request incominghandler.IncomingRequest) map[string][]string {
 	headerMap := make(map[string][]string)
@@ -28,24 +22,6 @@ func get_headers(request incominghandler.IncomingRequest) map[string][]string {
 	}
 
 	return headerMap
-}
-
-func get_settings(request incominghandler.IncomingRequest) *Settings {
-	headerMap := get_headers(request)
-	settingsHeaders, exists := headerMap["x-edgee-component-settings"]
-	if !exists || len(settingsHeaders) == 0 {
-		fmt.Println("Warning: x-edgee-component-settings header not found, using default settings")
-		return &Settings{}
-	}
-
-	var settings Settings
-	err := json.Unmarshal([]byte(settingsHeaders[0]), &settings)
-	if err != nil {
-		fmt.Println("Could not parse settings header:", err)
-		return &Settings{}
-	}
-
-	return &settings
 }
 
 func get_body(request incominghandler.IncomingRequest) string {
@@ -67,3 +43,4 @@ func get_body(request incominghandler.IncomingRequest) string {
 
 	return output
 }
+
