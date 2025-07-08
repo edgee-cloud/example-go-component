@@ -1,11 +1,50 @@
 package main
 
 import (
+	"encoding/json"
 	incominghandler "example-go-component/internal/wasi/http/incoming-handler"
 	wasihttp "example-go-component/internal/wasi/http/types"
+	"fmt"
 
 	"go.bytecodealliance.org/cm"
 )
+
+func get_headers(request incominghandler.IncomingRequest) map[string][]string {
+	headerMap := make(map[string][]string)
+
+	headers := request.Headers()
+	entries := headers.Entries()
+	slice := entries.Slice()
+
+	for _, entry := range slice {
+		key := string(entry.F0)
+		value := string(entry.F1.Slice())
+		if _, exists := headerMap[key]; !exists {
+			headerMap[key] = []string{}
+		}
+		headerMap[key] = append(headerMap[key], value)
+	}
+
+	return headerMap
+}
+
+type Settings struct {
+	Example string `json:"example"`
+}
+
+func get_settings(request incominghandler.IncomingRequest) *Settings {
+	headerMap := get_headers(request)
+	settingsHeader := headerMap["x-edgee-component-settings"][0]
+
+	var settings Settings
+
+	err := json.Unmarshal([]byte(settingsHeader), &settings)
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	return &settings
+}
 
 func Handle(request incominghandler.IncomingRequest, responseOut incominghandler.ResponseOutparam) {
 	index := `
@@ -62,6 +101,9 @@ func Handle(request incominghandler.IncomingRequest, responseOut incominghandler
 </body>
 </html>
 `
+
+	_ = get_headers(request)
+	_ = get_settings(request)
 	bytes := []uint8(index)
 	/*
 	   let resp_tx = OutgoingResponse::new(self.headers);
