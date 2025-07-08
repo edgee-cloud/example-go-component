@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	incominghandler "example-go-component/internal/wasi/http/incoming-handler"
 	wasihttp "example-go-component/internal/wasi/http/types"
+	"example-go-component/internal/wasi/io/streams"
 	"fmt"
 
 	"go.bytecodealliance.org/cm"
@@ -44,6 +45,26 @@ func get_settings(request incominghandler.IncomingRequest) *Settings {
 	}
 
 	return &settings
+}
+
+func get_body(request incominghandler.IncomingRequest) string {
+	body, _, _ := request.Consume().Result()
+	stream, _, _ := body.Stream().Result()
+
+	output := ""
+
+	for {
+		data, err, isErr := stream.Read(1024).Result()
+		if isErr {
+			if err == streams.StreamErrorClosed() {
+				break
+			}
+		} else {
+			output += string(data.Slice())
+		}
+	}
+
+	return output
 }
 
 func Handle(request incominghandler.IncomingRequest, responseOut incominghandler.ResponseOutparam) {
@@ -101,23 +122,15 @@ func Handle(request incominghandler.IncomingRequest, responseOut incominghandler
 </body>
 </html>
 `
-
+	// get the headers, settings, and body from the request
 	_ = get_headers(request)
-	_ = get_settings(request)
-	bytes := []uint8(index)
-	/*
-	   let resp_tx = OutgoingResponse::new(self.headers);
-	   let _ = resp_tx.set_status_code(self.status_code);
+	settings := get_settings(request)
+	fmt.Println("Settings:", settings)
+	incoming_body := get_body(request)
+	fmt.Println("Request body:", incoming_body)
 
-	   let body = resp_tx.body().unwrap();
-	   ResponseOutparam::set(resp, Ok(resp_tx));
-	   let stream = body.write().unwrap();
-	   if let Some(body_content) = self.body_content {
-	       let _ = stream.write(body_content.as_bytes());
-	   }
-	   drop(stream);
-	   let _ = OutgoingBody::finish(body, None);
-	*/
+	// write the response
+	bytes := []uint8(index)
 	response := wasihttp.NewOutgoingResponse(wasihttp.NewFields())
 	response.SetStatusCode(200)
 	body, _, _ := response.Body().Result()
