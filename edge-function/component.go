@@ -3,9 +3,33 @@ package main
 import (
 	incominghandler "example-go-component/internal/wasi/http/incoming-handler"
 	wasihttp "example-go-component/internal/wasi/http/types"
+	"fmt"
 
+	"encoding/json"
 	"go.bytecodealliance.org/cm"
 )
+
+type Settings struct {
+	Example string `json:"example"`
+}
+
+func get_settings(request incominghandler.IncomingRequest) *Settings {
+	headerMap := get_headers(request)
+	settingsHeaders, exists := headerMap["x-edgee-component-settings"]
+	if !exists || len(settingsHeaders) == 0 {
+		fmt.Println("Warning: x-edgee-component-settings header not found, using default settings")
+		return &Settings{}
+	}
+
+	var settings Settings
+	err := json.Unmarshal([]byte(settingsHeaders[0]), &settings)
+	if err != nil {
+		fmt.Println("Could not parse settings header:", err)
+		return &Settings{}
+	}
+
+	return &settings
+}
 
 func Handle(request incominghandler.IncomingRequest, responseOut incominghandler.ResponseOutparam) {
 	index := `
@@ -62,20 +86,15 @@ func Handle(request incominghandler.IncomingRequest, responseOut incominghandler
 </body>
 </html>
 `
-	bytes := []uint8(index)
-	/*
-	   let resp_tx = OutgoingResponse::new(self.headers);
-	   let _ = resp_tx.set_status_code(self.status_code);
+	// get the headers, settings, and body from the request
+	_ = get_headers(request)
+	settings := get_settings(request)
+	fmt.Println("Settings:", settings)
+	incoming_body := get_body(request)
+	fmt.Println("Request body:", incoming_body)
 
-	   let body = resp_tx.body().unwrap();
-	   ResponseOutparam::set(resp, Ok(resp_tx));
-	   let stream = body.write().unwrap();
-	   if let Some(body_content) = self.body_content {
-	       let _ = stream.write(body_content.as_bytes());
-	   }
-	   drop(stream);
-	   let _ = OutgoingBody::finish(body, None);
-	*/
+	// write the response
+	bytes := []uint8(index)
 	response := wasihttp.NewOutgoingResponse(wasihttp.NewFields())
 	response.SetStatusCode(200)
 	body, _, _ := response.Body().Result()
